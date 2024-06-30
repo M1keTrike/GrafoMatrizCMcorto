@@ -6,15 +6,19 @@ public class CaminoMinimo {
     boolean[] F;
 
     public CaminoMinimo(Grafo g, int origen) {
-        n = g.getNumeroVertices(); // Obtiene el número de vértices del grafo
+        n = 5; // Obtiene el número de vértices del grafo
         s = origen;
+
         pesos = new int[n][n];
         // Copiar matriz de adyacencia
+
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 pesos[i][j] = g.getMatrizAdyacencia()[i][j];
             }
-        }; // Copia de la matriz de adyacencia del grafo
+        }
+        ; // Copia de la matriz de adyacencia del grafo
+
         ultimo = new int[n];
         D = new int[n];
         F = new boolean[n];
@@ -38,7 +42,8 @@ public class CaminoMinimo {
         // Pasos para marcar los n-1 vértices
         for (int i = 1; i < n; i++) {
             int v = minimo();
-            if (v == -1) break; // Si no se encuentra un vértice válido, se sale del bucle
+            if (v == -1)
+                break; // Si no se encuentra un vértice válido, se sale del bucle
             F[v] = true;
 
             // actualiza distancia de vértices no marcados
@@ -84,5 +89,9 @@ public class CaminoMinimo {
         }
         imprimirCamino(ultimo[destino]);
         System.out.print(" -> " + destino);
+    }
+
+    public int[] getRutasCortas() {
+        return this.D;
     }
 }

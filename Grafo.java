@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Grafo {
-   
+
     Vertice[] listaVertices;
     private int[][] matrizAdyacencia;
 
@@ -65,5 +65,11 @@ public class Grafo {
 
     public int[][] getMatrizAdyacencia() {
         return this.matrizAdyacencia;
+    }
+
+    public void imprimirVertices() {
+        for (int i = 0; i < this.getNumeroVertices(); i++) {
+            System.out.println((i + 1) + ")" + listaVertices[i]);
+        }
     }
 }

@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Principal {
     public static void main(String[] args) {
-    
+
         Scanner entrada = new Scanner(System.in);
 
         int cantidad = 0;
@@ -62,10 +62,44 @@ public class Principal {
             }
         } while (!origenValido);
 
-        CaminoMinimo caminoMinimo = new CaminoMinimo(grafo, origen - 1);
-        caminoMinimo.Dijkstra();
-        caminoMinimo.imprimirResultados();
+        entrada.close();
+
+        calcularCostoViaje(grafo);
+    }
+
+    private static void calcularCostoViaje(Grafo grafo) {
+        Scanner entrada = new Scanner(System.in);
+        CaminoMinimo caminoMinimo;
+
+        int continuar = 0, actual, destino, dinero;
+
+        do {
+            System.out.println("Ingrese su ubicación actual: ");
+            // grafo.imprimirVertices();
+            actual = entrada.nextInt();
+            System.out.println("Ingrese su destino: ");
+            destino = entrada.nextInt();
+            System.out.println("Ingrese su presupuesto: ");
+            dinero = entrada.nextInt();
+            caminoMinimo = new CaminoMinimo(grafo, actual - 1);
+            caminoMinimo.Dijkstra();
+            caminoMinimo.imprimirResultados();
+
+            int[] caminosMDesdeActual = caminoMinimo.getRutasCortas();
+            if (caminosMDesdeActual[destino - 1] < dinero) {
+                System.out.println("\nEl dinero es suficiente para realizar el viaje");
+            } else {
+                System.out.println("\nEl dinero es insuficiente para realizar el viaje");
+            }
+
+            System.out.println("Desea hacer otro presupuesto?: 1)Si 2)No");
+            continuar = entrada.nextInt();
+
+        } while (continuar == 1);
+
+        System.out.println("\nIngrese la cantidad de dinero: ");
 
         entrada.close();
+
     }
 }
