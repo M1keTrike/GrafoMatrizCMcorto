@@ -1,18 +1,71 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Principal {
-    public static void main(String[] args) { 
+    public static void main(String[] args) {
+    
         Scanner entrada = new Scanner(System.in);
-        int cantidad;
 
-        System.out.println("Indica la cantidad de vertices del grafo");
-        cantidad= entrada.nextInt();
-        Grafo grafo = new Grafo(cantidad);
-        for(int i=0; i<cantidad;i++){
-            System.out.println("Ingrese el valor del vertice");
-            grafo.agregarVertice(entrada.next(), i);
+        int cantidad = 0;
+        String nombre = "";
+
+        try {
+            do {
+                System.out.println("Indica la cantidad de vértices del grafo:");
+                while (!entrada.hasNextInt()) {
+                    System.out.println("Debes ingresar un número entero.");
+                    entrada.next(); // limpiar el buffer del scanner
+                }
+                cantidad = entrada.nextInt();
+            } while (cantidad <= 0);
+
+            entrada.nextLine(); // limpiar el buffer del scanner
+
+        } catch (InputMismatchException e) {
+            System.out.println("Debes ingresar un número entero válido.");
+            System.exit(1);
         }
+
+        Grafo grafo = new Grafo(cantidad);
+
+        for (int i = 0; i < cantidad; i++) {
+            System.out.println("Ingresa el nombre del vértice " + (i + 1) + ":");
+            boolean nombreValido = false;
+            do {
+                nombre = entrada.nextLine();
+                if (!nombre.matches("[a-zA-Z]+")) {
+                    System.out.println("Debes ingresar un nombre válido (solo letras).");
+                } else {
+                    nombreValido = true;
+                }
+            } while (!nombreValido);
+
+            grafo.agregarVertice(nombre, i);
+        }
+
         grafo.agregarAristas();
         grafo.imprimir();
+
+        System.out.println("Ingrese el vértice origen para calcular el camino mínimo:");
+        int origen = 0;
+        boolean origenValido = false;
+        do {
+            while (!entrada.hasNextInt()) {
+                System.out.println("Debes ingresar un número entero.");
+                entrada.next(); // limpiar el buffer del scanner
+            }
+            origen = entrada.nextInt();
+            if (origen < 1 || origen > cantidad) {
+                System.out.println("El vértice origen debe estar dentro del rango válido.");
+            } else {
+                origenValido = true;
+            }
+        } while (!origenValido);
+
+        CaminoMinimo caminoMinimo = new CaminoMinimo(grafo, origen - 1);
+        caminoMinimo.Dijkstra();
+        caminoMinimo.imprimirResultados();
+
+        entrada.close();
     }
 }
